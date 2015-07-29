@@ -28,10 +28,10 @@
 //			> should animate if set so
 //
 // 2. Settings Test Cases
-//   a. childSelector
-//   b. selectedChildClass
+//   a. selector
+//   b. classSelected
 //   c. showAnimation
-//   d. animation
-//   e. animationSpeed
-//   f. reverse
+//   d. animationProperties
+//   e. animationDuration
+//   f. sendToEnd
 //   g. callback

@@ -1,8 +1,6 @@
 // TODO:
-//  1. "add new element" functionality
-//  2. animation -> animationType
-//     animationSpeed -> animationDuration
-//  3. unite concepts (e.g. child vs element)
+//  1. "add new child to container" functionality
+//  2. add option to send selected children to separate DOM
 
 (function(factory) {
   if(typeof module === "object" && typeof module.exports === "object") {
@@ -13,22 +11,22 @@
 }(function($) {
   "use strict";
 
-  var animationDefault = {
+  var DATA_FIELD_NAME = "data-selection-organizer-selected";
+  var EVENT_NAME_SPACE = ".selection-organizer";
+  var ANIMATION_PROPERTIES_DEFAULT = {
     opacity: "toggle"
   };
 
   $.fn.selectionOrganizer = function(options) {
-    var dataField = "data-selection-organizer-selected";
-    var eventNameSpace = ".selection-organizer";
     var settings = $.extend($.fn.selectionOrganizer.settings, options);
 
-    function repositionElement($el, behavior, target, cb) {
+    function repositionChild($el, behavior, target, cb) {
       if(hasAnimation()) {
         var animationProperties = getAnimationProperties();
-        $el.animate(animationProperties.start, settings.animationSpeed, function() {
-          $el.toggleClass(settings.selectedChildClass)
+        $el.animate(animationProperties.start, settings.animationDuration, function() {
+          $el.toggleClass(settings.classSelected)
               .detach()[behavior](target)
-              .animate(animationProperties.finish, settings.animationSpeed, function () {
+              .animate(animationProperties.finish, settings.animationDuration, function () {
                 cb();
                 settings.callback();
               });
@@ -42,7 +40,7 @@
     }
 
     function hasAnimation() {
-      if(!settings.showAnimation || $.isEmptyObject(settings.animation)) {
+      if(!settings.showAnimation || $.isEmptyObject(settings.animationProperties)) {
         return false;
       }
 
@@ -50,25 +48,25 @@
     }
 
     function getAnimationProperties() {
-      if(settings.animation.start && settings.animation.finish) {
-        return {start: settings.animation.start, finish: settings.animation.finish};
+      if(settings.animationProperties.start && settings.animationProperties.finish) {
+        return {start: settings.animationProperties.start, finish: settings.animationProperties.finish};
       }
 
-      if(!settings.animation.start && !settings.animation.finish) {
-        return {start: settings.animation, finish: settings.animation};
+      if(!settings.animationProperties.start && !settings.animationProperties.finish) {
+        return {start: settings.animationProperties, finish: settings.animationProperties};
       }
 
-      return {start: settings.animation.start || animationDefault, finish: settings.animation.finish || animationDefault};
+      return {start: settings.animationProperties.start || ANIMATION_PROPERTIES_DEFAULT, finish: settings.animationProperties.finish || ANIMATION_PROPERTIES_DEFAULT};
     }
 
     return this.each(function(index, element) {
-      var $listContainer = $(element);
-      var $allChildrenList = getCurrentOrderedListOfChildren();
+      var $container = $(element);
+      var $allChildren = getCurrentOrderOfAllChildren();
 
       // initialize
-      $allChildrenList.each(function(index, element) {
-        $(element).attr(dataField, false);
-        $(element).on("click"+eventNameSpace, clickEventHandler);
+      $allChildren.each(function(index, child) {
+        $(child).attr(DATA_FIELD_NAME, false);
+        $(child).on("click"+EVENT_NAME_SPACE, clickEventHandler);
       });
 
       function clickEventHandler(event) {
@@ -77,52 +75,52 @@
         var $this = $(this);
         var hasRepositioned = false;
 
-        // toggle data
-        $this.attr(dataField, ($this.attr(dataField) == "true" ? false : true));
+        // toggle data field value
+        $this.attr(DATA_FIELD_NAME, ($this.attr(DATA_FIELD_NAME) == "true" ? false : true));
 
         // update list of selected children
-        var $selectedChildrenList = $listContainer.find("["+dataField+"=true"+"]");
+        var $selectedChildrenList = $container.find("["+DATA_FIELD_NAME+"=true"+"]");
         var numSelectedChildren = $selectedChildrenList.length;
-        var lastSelectedChild = getElementAtEndOfList($selectedChildrenList, numSelectedChildren);
+        var lastSelectedChild = getChildAtTail($selectedChildrenList, numSelectedChildren);
 
-        // reposition clicked element based on case
-        if($this.attr(dataField) == "true") {
+        // reposition clicked child based on case
+        if($this.attr(DATA_FIELD_NAME) == "true") {
           // change since the current lastSelectedChild is the one we just clicked
           numSelectedChildren = numSelectedChildren - 1;
-          lastSelectedChild = getElementAtEndOfList($selectedChildrenList, numSelectedChildren);
+          lastSelectedChild = getChildAtTail($selectedChildrenList, numSelectedChildren);
 
           if(numSelectedChildren > 0) {
-            if(!settings.reverse) {
+            if(!settings.sendToEnd) {
               // append to end of list of selected children
               if(!($this.prev().is(lastSelectedChild))) {
-                repositionElement($this, "insertAfter", lastSelectedChild, addClickEventHandlers);
+                repositionChild($this, "insertAfter", lastSelectedChild, addClickEventHandlers);
                 hasRepositioned = true;
               }
             }
             else {
               // append to start of list of selected children
               if(!($this.next().is(lastSelectedChild))) {
-                repositionElement($this, "insertBefore", lastSelectedChild, addClickEventHandlers);
+                repositionChild($this, "insertBefore", lastSelectedChild, addClickEventHandlers);
                 hasRepositioned = true;
               }
             }
           }
           // bring to front of whole list
           else {
-            var $currentList = getCurrentOrderedListOfChildren();
-            if(!settings.reverse) {
+            var $currentAllChildren = getCurrentOrderOfAllChildren();
+            if(!settings.sendToEnd) {
               // only detach and bring to front if it wasn't originally in front
-              var $firstChildInListContainer = $currentList[0];
-              if(!($this.is($firstChildInListContainer))) {
-                repositionElement($this, "prependTo", $listContainer, addClickEventHandlers);
+              var $firstChildInContainer = $currentAllChildren[0];
+              if(!($this.is($firstChildInContainer))) {
+                repositionChild($this, "prependTo", $container, addClickEventHandlers);
                 hasRepositioned = true;
               }
             }
             else {
               // only detach and bring to end if it wasn't originally in end
-              var $lastChildInListContainer = $currentList[$currentList.length-1];
-              if(!($this.is($lastChildInListContainer))) {
-                repositionElement($this, "appendTo", $listContainer, addClickEventHandlers);
+              var $lastChildInContainer = $currentAllChildren[$currentAllChildren.length-1];
+              if(!($this.is($lastChildInContainer))) {
+                repositionChild($this, "appendTo", $container, addClickEventHandlers);
                 hasRepositioned = true;
               }
             }
@@ -131,17 +129,17 @@
         else {
           // remove from list of selected children
           if(numSelectedChildren > 0) {
-            if(!settings.reverse) {
+            if(!settings.sendToEnd) {
               // only detach if it wasn't already at end of list of selected children
               if(!($this.prev().is(lastSelectedChild))) {
-                repositionElement($this, "insertAfter", lastSelectedChild, addClickEventHandlers);
+                repositionChild($this, "insertAfter", lastSelectedChild, addClickEventHandlers);
                 hasRepositioned = true;
               }
             }
             else {
               // only detach if it wasn't already at first of list of selected children
               if(!($this.next().is(lastSelectedChild))) {
-                repositionElement($this, "insertBefore", lastSelectedChild, addClickEventHandlers);
+                repositionChild($this, "insertBefore", lastSelectedChild, addClickEventHandlers);
                 hasRepositioned = true;
               }
             }
@@ -149,44 +147,44 @@
         }
 
         if(!hasAnimation() || (hasAnimation() && !hasRepositioned)) {
-          $this.toggleClass(settings.selectedChildClass);
+          $this.toggleClass(settings.classSelected);
           addClickEventHandlers();
           settings.callback();
         }
       }
 
-      function getElementAtEndOfList(list, numElements) {
-        if(settings.reverse) {
-          return list[list.length - numElements] || null;
+      function getChildAtTail(childrenList, numChildren) {
+        if(settings.sendToEnd) {
+          return childrenList[childrenList.length - numChildren] || null;
         }
-        return list[numElements-1] || null;
+        return childrenList[numChildren-1] || null;
       }
 
-      function getCurrentOrderedListOfChildren() {
-        return $listContainer.children(settings.childSelector);
+      function getCurrentOrderOfAllChildren() {
+        return $container.children(settings.selector);
       }
 
       function removeClickEventHandlers() {
-        $allChildrenList.each(function(index, element) {
-          $(element).off("click"+eventNameSpace);
+        $allChildren.each(function(index, child) {
+          $(child).off("click"+EVENT_NAME_SPACE);
         });
       }
 
       function addClickEventHandlers() {
-        $allChildrenList.each(function(index, element) {
-          $(element).on("click"+eventNameSpace, clickEventHandler);
+        $allChildren.each(function(index, child) {
+          $(child).on("click"+EVENT_NAME_SPACE, clickEventHandler);
         });
       }
     });
   };
 
   $.fn.selectionOrganizer.settings = {
-    childSelector: "li",
-    selectedChildClass: "selection-organizer-selected",
+    selector: "li",
+    classSelected: "selection-organizer-selected",
     showAnimation: true,
-    animation: animationDefault,
-    animationSpeed: 300,
-    reverse: false,
+    animationProperties: ANIMATION_PROPERTIES_DEFAULT,
+    animationDuration: 300,
+    sendToEnd: false,
     callback: function () {}
   };
 }));

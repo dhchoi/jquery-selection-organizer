@@ -4,14 +4,14 @@ require("jquery-selection-organizer");
 $(document).ready(function () {
   // initialize
   $(".unordered-list").selectionOrganizer({
-    childSelector: "li",
-    animation: {
+    selector: "li",
+    animationProperties: {
       finish: {"height": "toggle"}
     },
-    selectedChildClass: "unordered-list-selected",
+    classSelected: "unordered-list-selected",
     callback: function () {console.log("end");}
   });
 
   // change settings
-  $.fn.selectionOrganizer.settings.reverse = true;
+  $.fn.selectionOrganizer.settings.sendToEnd = true;
 });

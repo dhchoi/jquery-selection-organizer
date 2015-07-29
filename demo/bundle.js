@@ -5,20 +5,20 @@ require("jquery-selection-organizer");
 $(document).ready(function () {
   // initialize
   $(".unordered-list").selectionOrganizer({
-    childSelector: "li",
-    animation: {
+    selector: "li",
+    animationProperties: {
       finish: {"height": "toggle"}
     },
-    selectedChildClass: "unordered-list-selected",
+    classSelected: "unordered-list-selected",
     callback: function () {console.log("end");}
   });
 
   // change settings
-  $.fn.selectionOrganizer.settings.reverse = true;
+  $.fn.selectionOrganizer.settings.sendToEnd = true;
 });
 
 },{"jquery":3,"jquery-selection-organizer":2}],2:[function(require,module,exports){
-!function(e){e("object"==typeof module&&"object"==typeof module.exports?require("jquery"):jQuery)}(function(e){"use strict";var n={opacity:"toggle"};e.fn.selectionOrganizer=function(t){function i(e,n,t,i){if(a()){var s=r();e.animate(s.start,c.animationSpeed,function(){e.toggleClass(c.selectedChildClass).detach()[n](t).animate(s.finish,c.animationSpeed,function(){i(),c.callback()})})}else e.detach()[n](t);return e}function a(){return!c.showAnimation||e.isEmptyObject(c.animation)?!1:!0}function r(){return c.animation.start&&c.animation.finish?{start:c.animation.start,finish:c.animation.finish}:c.animation.start||c.animation.finish?{start:c.animation.start||n,finish:c.animation.finish||n}:{start:c.animation,finish:c.animation}}var s="data-selection-organizer-selected",o=".selection-organizer",c=e.extend(e.fn.selectionOrganizer.settings,t);return this.each(function(n,t){function r(n){u();var t=e(this),r=!1;t.attr(s,"true"==t.attr(s)?!1:!0);var o=d.find("["+s+"=true]"),m=o.length,g=l(o,m);if("true"==t.attr(s))if(m-=1,g=l(o,m),m>0)c.reverse?t.next().is(g)||(i(t,"insertBefore",g,h),r=!0):t.prev().is(g)||(i(t,"insertAfter",g,h),r=!0);else{var v=f();if(c.reverse){var p=v[v.length-1];t.is(p)||(i(t,"appendTo",d,h),r=!0)}else{var C=v[0];t.is(C)||(i(t,"prependTo",d,h),r=!0)}}else m>0&&(c.reverse?t.next().is(g)||(i(t,"insertBefore",g,h),r=!0):t.prev().is(g)||(i(t,"insertAfter",g,h),r=!0));(!a()||a()&&!r)&&(t.toggleClass(c.selectedChildClass),h(),c.callback())}function l(e,n){return c.reverse?e[e.length-n]||null:e[n-1]||null}function f(){return d.children(c.childSelector)}function u(){m.each(function(n,t){e(t).off("click"+o)})}function h(){m.each(function(n,t){e(t).on("click"+o,r)})}var d=e(t),m=f();m.each(function(n,t){e(t).attr(s,!1),e(t).on("click"+o,r)})})},e.fn.selectionOrganizer.settings={childSelector:"li",selectedChildClass:"selection-organizer-selected",showAnimation:!0,animation:n,animationSpeed:300,reverse:!1,callback:function(){}}});
+!function(n){n("object"==typeof module&&"object"==typeof module.exports?require("jquery"):jQuery)}(function(n){"use strict";var e="data-selection-organizer-selected",t=".selection-organizer",i={opacity:"toggle"};n.fn.selectionOrganizer=function(r){function a(n,e,t,i){if(o()){var r=s();n.animate(r.start,c.animationDuration,function(){n.toggleClass(c.classSelected).detach()[e](t).animate(r.finish,c.animationDuration,function(){i(),c.callback()})})}else n.detach()[e](t);return n}function o(){return!c.showAnimation||n.isEmptyObject(c.animationProperties)?!1:!0}function s(){return c.animationProperties.start&&c.animationProperties.finish?{start:c.animationProperties.start,finish:c.animationProperties.finish}:c.animationProperties.start||c.animationProperties.finish?{start:c.animationProperties.start||i,finish:c.animationProperties.finish||i}:{start:c.animationProperties,finish:c.animationProperties}}var c=n.extend(n.fn.selectionOrganizer.settings,r);return this.each(function(i,r){function s(t){u();var i=n(this),r=!1;i.attr(e,"true"==i.attr(e)?!1:!0);var s=p.find("["+e+"=true]"),h=s.length,m=l(s,h);if("true"==i.attr(e))if(h-=1,m=l(s,h),h>0)c.sendToEnd?i.next().is(m)||(a(i,"insertBefore",m,d),r=!0):i.prev().is(m)||(a(i,"insertAfter",m,d),r=!0);else{var g=f();if(c.sendToEnd){var P=g[g.length-1];i.is(P)||(a(i,"appendTo",p,d),r=!0)}else{var v=g[0];i.is(v)||(a(i,"prependTo",p,d),r=!0)}}else h>0&&(c.sendToEnd?i.next().is(m)||(a(i,"insertBefore",m,d),r=!0):i.prev().is(m)||(a(i,"insertAfter",m,d),r=!0));(!o()||o()&&!r)&&(i.toggleClass(c.classSelected),d(),c.callback())}function l(n,e){return c.sendToEnd?n[n.length-e]||null:n[e-1]||null}function f(){return p.children(c.selector)}function u(){h.each(function(e,i){n(i).off("click"+t)})}function d(){h.each(function(e,i){n(i).on("click"+t,s)})}var p=n(r),h=f();h.each(function(i,r){n(r).attr(e,!1),n(r).on("click"+t,s)})})},n.fn.selectionOrganizer.settings={selector:"li",classSelected:"selection-organizer-selected",showAnimation:!0,animationProperties:i,animationDuration:300,sendToEnd:!1,callback:function(){}}});
 },{"jquery":3}],3:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
