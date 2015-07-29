@@ -1,0 +1,24 @@
+{
+  "name": "jquery-selection-organizer",
+  "version": "1.0.0",
+  "authors": [
+    "Andy Choi <andy.dh.choi@gmail.com>"
+  ],
+  "description": "A jQuery plugin that organizes selected elements into one space",
+  "main": "dist/jquery.selection-organizer.min.js",
+  "keywords": [
+    "jquery"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/dhchoi/jquery-selection-organizer",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.1.3"
+  }
+}

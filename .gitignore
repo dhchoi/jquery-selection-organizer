@@ -1,0 +1,12 @@
+# Logs
+npm-debug.log
+
+# Dependency directory
+node_modules/
+
+# IDE settings
+.idea/
+*.iml
+
+# Miscellaneous
+.DS_store

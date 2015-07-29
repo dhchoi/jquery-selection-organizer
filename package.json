@@ -1,0 +1,46 @@
+{
+  "name": "jquery-selection-organizer",
+  "version": "1.0.0",
+  "description": "A jQuery plugin that organizes selected elements into one space",
+  "main": "dist/jquery.selection-organizer.min.js",
+  "scripts": {
+    "prepublish": "gulp",
+    "demo": "npm run prepublish && browserify demo/entry.js > demo/bundle.js && python -m SimpleHTTPServer 8000",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dhchoi/jquery-selection-organizer"
+  },
+  "keywords": [
+    "jquery-plugin",
+    "ecosystem:jquery",
+    "javascript",
+    "js",
+    "plugin",
+    "util",
+    "dom",
+    "library",
+    "browser"
+  ],
+  "author": {
+    "name": "Andy Choi",
+    "email": "andy.dh.choi@gmail.com",
+    "url": "http://www.dhchoi.com/"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dhchoi/jquery-selection-organizer/issues"
+  },
+  "homepage": "https://github.com/dhchoi/jquery-selection-organizer",
+  "devDependencies": {
+    "browserify": "^11.0.0",
+    "gulp": "^3.9.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.2.0"
+  },
+  "dependencies": {
+    "jquery": "^2.1.4"
+  }
+}
