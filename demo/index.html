@@ -23,13 +23,13 @@
       <li>10</li>
     </ul>
     <div class="checkbox-list">
-      <span><input type="checkbox">A</span>
-      <span><input type="checkbox">B</span>
-      <span><input type="checkbox">C</span>
-      <span><input type="checkbox">D</span>
-      <span><input type="checkbox">E</span>
-      <span><input type="checkbox">F</span>
-      <span><input type="checkbox">G</span>
+      <label><input type="checkbox">A</label>
+      <label><input type="checkbox">B</label>
+      <label><input type="checkbox">C</label>
+      <label><input type="checkbox">D</label>
+      <label><input type="checkbox">E</label>
+      <label><input type="checkbox">F</label>
+      <label><input type="checkbox">G</label>
     </div>
 
     <!-- Example for NPM and Browserify -->
@@ -40,7 +40,7 @@
     <script src="../dist/jquery.selection-organizer.min.js"></script>
     <script>
       $(".checkbox-list").selectionOrganizer({
-        childSelector: "span",
+        childSelector: "label",
         callback: function () {console.log("end");}
       });
     </script>

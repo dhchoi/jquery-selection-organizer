@@ -13,5 +13,5 @@ $(document).ready(function () {
   });
 
   // change settings
-  // $.fn.selectionOrganizer.settings.showAnimation = false;
+  $.fn.selectionOrganizer.settings.reverse = true;
 });
