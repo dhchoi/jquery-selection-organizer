@@ -2,12 +2,13 @@
 //  1. "add new element" functionality
 //  2. animation -> animationType
 //     animationSpeed -> animationDuration
+//  3. unite concepts (e.g. child vs element)
 
 (function(factory) {
   if(typeof module === "object" && typeof module.exports === "object") {
     factory(require("jquery"));
   } else {
-    factory(jQuery)();
+    factory(jQuery);
   }
 }(function($) {
   "use strict";
@@ -62,7 +63,7 @@
 
     return this.each(function(index, element) {
       var $listContainer = $(element);
-      var $allChildrenList = $listContainer.children(settings.childSelector);
+      var $allChildrenList = getCurrentOrderedListOfChildren();
 
       // initialize
       $allChildrenList.each(function(index, element) {
@@ -82,13 +83,13 @@
         // update list of selected children
         var $selectedChildrenList = $listContainer.find("["+dataField+"=true"+"]");
         var numSelectedChildren = $selectedChildrenList.length;
-        var lastSelectedChild = (numSelectedChildren > 0) ? $selectedChildrenList[numSelectedChildren-1] : null;
+        var lastSelectedChild = getElementAtEndOfList($selectedChildrenList, numSelectedChildren);
 
         // reposition clicked element based on case
         if($this.attr(dataField) == "true") {
           // change since the current lastSelectedChild is the one we just clicked
           numSelectedChildren = numSelectedChildren - 1;
-          lastSelectedChild = (numSelectedChildren > 0) ? $selectedChildrenList[numSelectedChildren-1] : null;
+          lastSelectedChild = getElementAtEndOfList($selectedChildrenList, numSelectedChildren);
 
           if(numSelectedChildren > 0) {
             if(!settings.reverse) {
@@ -100,13 +101,18 @@
             }
             else {
               // append to start of list of selected children
+              if(!($this.next().is(lastSelectedChild))) {
+                repositionElement($this, "insertBefore", lastSelectedChild, addClickEventHandlers);
+                hasRepositioned = true;
+              }
             }
           }
           // bring to front of whole list
           else {
+            var $currentList = getCurrentOrderedListOfChildren();
             if(!settings.reverse) {
               // only detach and bring to front if it wasn't originally in front
-              var $firstChildInListContainer = $listContainer.children(settings.childSelector)[0];
+              var $firstChildInListContainer = $currentList[0];
               if(!($this.is($firstChildInListContainer))) {
                 repositionElement($this, "prependTo", $listContainer, addClickEventHandlers);
                 hasRepositioned = true;
@@ -114,6 +120,11 @@
             }
             else {
               // only detach and bring to end if it wasn't originally in end
+              var $lastChildInListContainer = $currentList[$currentList.length-1];
+              if(!($this.is($lastChildInListContainer))) {
+                repositionElement($this, "appendTo", $listContainer, addClickEventHandlers);
+                hasRepositioned = true;
+              }
             }
           }
         }
@@ -129,6 +140,10 @@
             }
             else {
               // only detach if it wasn't already at first of list of selected children
+              if(!($this.next().is(lastSelectedChild))) {
+                repositionElement($this, "insertBefore", lastSelectedChild, addClickEventHandlers);
+                hasRepositioned = true;
+              }
             }
           }
         }
@@ -138,6 +153,17 @@
           addClickEventHandlers();
           settings.callback();
         }
+      }
+
+      function getElementAtEndOfList(list, numElements) {
+        if(settings.reverse) {
+          return list[list.length - numElements] || null;
+        }
+        return list[numElements-1] || null;
+      }
+
+      function getCurrentOrderedListOfChildren() {
+        return $listContainer.children(settings.childSelector);
       }
 
       function removeClickEventHandlers() {
