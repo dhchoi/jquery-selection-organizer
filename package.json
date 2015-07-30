@@ -1,7 +1,7 @@
 {
   "name": "jquery-selection-organizer",
   "version": "1.0.0",
-  "description": "A jQuery plugin that organizes selected elements into one space",
+  "description": "A jQuery plugin that organizes selectable elements by separating the selected elements from the unselected ones",
   "main": "dist/jquery.selection-organizer.min.js",
   "scripts": {
     "prepublish": "gulp",
