@@ -179,7 +179,7 @@
   };
 
   $.fn.selectionOrganizer.settings = {
-    selector: "li",
+    selector: ".selection-organizer-child",
     classSelected: "selection-organizer-selected",
     showAnimation: true,
     animationProperties: ANIMATION_PROPERTIES_DEFAULT,
