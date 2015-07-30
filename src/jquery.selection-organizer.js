@@ -1,7 +1,3 @@
-// TODO:
-//  1. "add new child to container" functionality
-//  2. add option to send selected children to separate DOM
-
 (function(factory) {
   if(typeof module === "object" && typeof module.exports === "object") {
     factory(require("jquery"));
