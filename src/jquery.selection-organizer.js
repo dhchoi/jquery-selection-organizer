@@ -9,51 +9,20 @@
 
   var DATA_FIELD_NAME = "data-selection-organizer-selected";
   var EVENT_NAME_SPACE = ".selection-organizer";
-  var ANIMATION_PROPERTIES_DEFAULT = {
-    opacity: "toggle"
+  var DEFAULT_SETTINGS = {
+    selector: ".selection-organizer-child",
+    classSelected: "selection-organizer-selected",
+    showAnimation: true,
+    animationProperties: {
+      opacity: "toggle"
+    },
+    animationDuration: 300,
+    sendToEnd: false,
+    callback: function () {}
   };
 
   $.fn.selectionOrganizer = function(options) {
-    var settings = $.extend($.fn.selectionOrganizer.settings, options);
-
-    function repositionChild($el, behavior, target, cb) {
-      if(hasAnimation()) {
-        var animationProperties = getAnimationProperties();
-        $el.animate(animationProperties.start, settings.animationDuration, function() {
-          $el.toggleClass(settings.classSelected)
-              .detach()[behavior](target)
-              .animate(animationProperties.finish, settings.animationDuration, function () {
-                cb();
-                settings.callback();
-              });
-        });
-      }
-      else {
-        $el.detach()[behavior](target);
-      }
-
-      return $el;
-    }
-
-    function hasAnimation() {
-      if(!settings.showAnimation || $.isEmptyObject(settings.animationProperties)) {
-        return false;
-      }
-
-      return true;
-    }
-
-    function getAnimationProperties() {
-      if(settings.animationProperties.start && settings.animationProperties.finish) {
-        return {start: settings.animationProperties.start, finish: settings.animationProperties.finish};
-      }
-
-      if(!settings.animationProperties.start && !settings.animationProperties.finish) {
-        return {start: settings.animationProperties, finish: settings.animationProperties};
-      }
-
-      return {start: settings.animationProperties.start || ANIMATION_PROPERTIES_DEFAULT, finish: settings.animationProperties.finish || ANIMATION_PROPERTIES_DEFAULT};
-    }
+    var settings = this.settings = $.extend({}, DEFAULT_SETTINGS, options);
 
     return this.each(function(index, element) {
       var $container = $(element);
@@ -149,6 +118,45 @@
         }
       }
 
+      function repositionChild($el, behavior, target, cb) {
+        if(hasAnimation()) {
+          var animationProperties = getAnimationProperties();
+          $el.animate(animationProperties.start, settings.animationDuration, function() {
+            $el.toggleClass(settings.classSelected)
+                .detach()[behavior](target)
+                .animate(animationProperties.finish, settings.animationDuration, function () {
+                  cb();
+                  settings.callback();
+                });
+          });
+        }
+        else {
+          $el.detach()[behavior](target);
+        }
+
+        return $el;
+      }
+
+      function hasAnimation() {
+        if(!settings.showAnimation || $.isEmptyObject(settings.animationProperties)) {
+          return false;
+        }
+
+        return true;
+      }
+
+      function getAnimationProperties() {
+        if(settings.animationProperties.start && settings.animationProperties.finish) {
+          return {start: settings.animationProperties.start, finish: settings.animationProperties.finish};
+        }
+
+        if(!settings.animationProperties.start && !settings.animationProperties.finish) {
+          return {start: settings.animationProperties, finish: settings.animationProperties};
+        }
+
+        return {start: settings.animationProperties.start || DEFAULT_SETTINGS.animationProperties, finish: settings.animationProperties.finish || DEFAULT_SETTINGS.animationProperties};
+      }
+
       function getChildAtTail(childrenList, numChildren) {
         if(settings.sendToEnd) {
           return childrenList[childrenList.length - numChildren] || null;
@@ -172,15 +180,5 @@
         });
       }
     });
-  };
-
-  $.fn.selectionOrganizer.settings = {
-    selector: ".selection-organizer-child",
-    classSelected: "selection-organizer-selected",
-    showAnimation: true,
-    animationProperties: ANIMATION_PROPERTIES_DEFAULT,
-    animationDuration: 300,
-    sendToEnd: false,
-    callback: function () {}
   };
 }));

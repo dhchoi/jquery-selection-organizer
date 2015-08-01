@@ -30,11 +30,10 @@ Documentation
 * How to Initialize:
 
         // how it will look
-        var settings = {...};
-        $(".container").selectionOrganizer(settings);
+        var organizer = $(".container").selectionOrganizer({..settings..});
 
         // actual example
-        $(".unordered-list").selectionOrganizer({
+        var organizer = $(".container").selectionOrganizer({
           selector: "li",
           animationProperties: {
             finish: {"height": "toggle"}
@@ -45,13 +44,15 @@ Documentation
           }
         });
 
-* How to Change Settings:
+* How to Change Settings After Initializing:
 
         // how it will look
-        $.fn.selectionOrganizer.settings.field = value;
+        var organizer = $(".container").selectionOrganizer({..settings..});
+        organizer.settings.field = value;
 
         // actual example
-        $.fn.selectionOrganizer.settings.sendToEnd = true;
+        var organizer = $(".container").selectionOrganizer({sendToEnd: false});
+        organizer.settings.sendToEnd = true;
 
 * Available Settings Fields:
   * selector: selector for elements that will be organized by the plugin
