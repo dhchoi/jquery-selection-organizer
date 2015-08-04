@@ -4,8 +4,8 @@
   "description": "A jQuery plugin that organizes selectable elements by separating the selected elements from the unselected ones",
   "main": "dist/jquery.selection-organizer.min.js",
   "scripts": {
-    "prepublish": "gulp",
-    "demo": "npm run prepublish && browserify demo/entry.js > demo/bundle.js && python -m SimpleHTTPServer 8000",
+    "prepublish": "gulp && browserify demo/entry.js > demo/bundle.js",
+    "demo": "npm run prepublish && python -m SimpleHTTPServer 8000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
