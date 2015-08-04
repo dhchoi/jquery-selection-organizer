@@ -7,24 +7,7 @@
   <title>jquery-selection-organizer by dhchoi</title>
   <link rel="stylesheet" href="http://yui.yahooapis.com/combo?pure/0.6.0/base-min.css&pure/0.6.0/grids-min.css&pure/0.6.0/grids-responsive-min.css">
   <link rel="stylesheet" href="stylesheets/styles.css">
-  <style>
-  ul {
-    margin: 0;
-  }
-  .pure-g {
-    letter-spacing: 0em;
-  }
-  .unordered-list li,
-  .unordered-list-sendToEnd li {
-    list-style: none;
-    text-decoration: underline;
-    cursor: pointer;
-  }
-  .unordered-list li.selection-organizer-selected,
-  .unordered-list-sendToEnd li.selection-organizer-selected {
-    color: red;
-  }
-  </style>
+  <link rel="stylesheet" href="stylesheets/main.css">
   <!--[if lt IE 9]>
   <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
@@ -41,10 +24,10 @@
       </ul>
     </header>
     <section>
-      <h3>
-        <a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using default options:
-      </h3>
-      <p><code>$(".unordered-list").selectionOrganizer();</code></p>
+      <h2>Using default options:</h2>
+      <div class="code-container">
+        <code>$(".unordered-list").selectionOrganizer();</code>
+      </div>
       <div class="pure-g">
         <ul class="unordered-list">
           <li class="selection-organizer-child">1</li>
@@ -60,26 +43,60 @@
         </ul>
       </div>
 
-      <!-- <h3>
-        <a id="creating-pages-manually" class="anchor" href="#creating-pages-manually" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using options:
-      </h3>
-      <p><code>$(".unordered-list-sendToEnd").selectionOrganizer({
-        sendToEnd: true
-      });</code></p>
+      <h2>Using custom options:</h2>
+      <div class="code-container">
+        <code>
+        $(".checkbox-list").selectionOrganizer({<br>
+        &nbsp;  selector: ".child", <br>
+        &nbsp;  classSelected: "selected", <br>
+        &nbsp;  showAnimation: false, <br>
+        &nbsp;  sendToEnd: true <br>
+        });
+        </code>
+      </div>
       <div class="pure-g">
-        <ul class="unordered-list-sendToEnd">
-          <li class="selection-organizer-child">1</li>
-          <li class="selection-organizer-child">2</li>
-          <li class="selection-organizer-child">3</li>
-          <li class="selection-organizer-child">4</li>
-          <li class="selection-organizer-child">5</li>
-          <li class="selection-organizer-child">6</li>
-          <li class="selection-organizer-child">7</li>
-          <li class="selection-organizer-child">8</li>
-          <li class="selection-organizer-child">9</li>
-          <li class="selection-organizer-child">10</li>
-        </ul>
-      </div> -->
+        <div class="checkbox-list">
+          <label class="child"><input type="checkbox"><span>Buy milk</span></label>
+          <label class="child"><input type="checkbox"><span>Get kids from school</span></label>
+          <label class="child"><input type="checkbox"><span>Check out available movies</span></label>
+          <label class="child"><input type="checkbox"><span>Call over friends</span></label>
+          <label class="child"><input type="checkbox"><span>Buy Arsenal game tickets</span></label>
+          <label class="child"><input type="checkbox"><span>Find out where the cat is hiding</span></label>
+        </div>
+      </div>
+
+      <h2>Changing options after initialization:</h2>
+      <div class="code-container">
+        <code>
+        var boxListOrganizer = $(".box-list").selectionOrganizer({<br>
+        &nbsp;  selector: ".child", <br>
+        &nbsp;  classSelected: "selected", <br>
+        &nbsp;  sendToEnd: true, <br>
+        &nbsp;  callback : function(target) { <br>
+        &nbsp;&nbsp;&nbsp;  $(".span-selected-box-number").text($(target).text()); <br>
+        &nbsp;  } <br>
+        }); <br>
+        boxListOrganizer.settings.animationProperties = {width: "toggle"}; <br>
+        boxListOrganizer.settings.animationDuration = 200;
+        </code>
+      </div>
+      <div class="pure-g">
+          <div class="box-list">
+            <div class="child">1</div>
+            <div class="child">2</div>
+            <div class="child">3</div>
+            <div class="child">4</div>
+            <div class="child">5</div>
+            <div class="child">6</div>
+            <div class="child">7</div>
+            <div class="child">8</div>
+            <div class="child">9</div>
+            <div class="child">10</div>
+          </div>
+          <br>
+      </div>
+      <p class="callback-notifier">Selected: Box #<span class="span-selected-box-number"></span></p>
+
     </section>
     <footer>
           <p>This project is maintained by <a href="https://github.com/dhchoi">dhchoi</a>.</p>
@@ -103,9 +120,22 @@
   <script type="text/javascript">
     $(window).load(function () {
       $(".unordered-list").selectionOrganizer();
-      // $(".unordered-list-sendToEnd").selectionOrganizer({
-      //   sendToEnd: true
-      // });
+      $(".checkbox-list").selectionOrganizer({
+        selector: ".child",
+        classSelected: "selected",
+        showAnimation: false,
+        sendToEnd: true
+      });
+      var boxListOrganizer = $(".box-list").selectionOrganizer({
+        selector: ".child",
+        classSelected: "selected",
+        sendToEnd: true,
+        callback : function(target) {
+          $(".span-selected-box-number").text($(target).text());
+        }
+      });
+      boxListOrganizer.settings.animationProperties = {width: "toggle"};
+      boxListOrganizer.settings.animationDuration = 200;
     });
   </script>
 </body>
