@@ -29,9 +29,9 @@
       var $allChildren = getCurrentOrderOfAllChildren();
 
       // initialize
+      addClickEventHandlers();
       $allChildren.each(function(index, child) {
         $(child).attr(DATA_FIELD_NAME, false);
-        $(child).on("click"+EVENT_NAME_SPACE, clickEventHandler);
       });
 
       function clickEventHandler(event) {
@@ -169,15 +169,11 @@
       }
 
       function removeClickEventHandlers() {
-        $allChildren.each(function(index, child) {
-          $(child).off("click"+EVENT_NAME_SPACE);
-        });
+        $container.off("click"+EVENT_NAME_SPACE);
       }
 
       function addClickEventHandlers() {
-        $allChildren.each(function(index, child) {
-          $(child).on("click"+EVENT_NAME_SPACE, clickEventHandler);
-        });
+        $container.on("click"+EVENT_NAME_SPACE, settings.selector, clickEventHandler);
       }
     });
   };
