@@ -1,36 +1,87 @@
 <!doctype html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <title>title</title>
-    <style>
-    .unordered-list-selected {
-      border: 1px solid #000;
-    }
-    </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>jquery-selection-organizer by dhchoi</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/combo?pure/0.6.0/base-min.css&pure/0.6.0/grids-min.css&pure/0.6.0/grids-responsive-min.css">
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/main.css">
   </head>
   <body>
-    <ul class="unordered-list">
-      <li>1</li>
-      <li>2</li>
-      <li>3</li>
-      <li>4</li>
-      <li>5</li>
-      <li>6</li>
-      <li>7</li>
-      <li>8</li>
-      <li>9</li>
-      <li>10</li>
-    </ul>
-    <div class="checkbox-list">
-      <label><input type="checkbox">A</label>
-      <label><input type="checkbox">B</label>
-      <label><input type="checkbox">C</label>
-      <label><input type="checkbox">D</label>
-      <label><input type="checkbox">E</label>
-      <label><input type="checkbox">F</label>
-      <label><input type="checkbox">G</label>
+    <h2>Using default options:</h2>
+    <div class="code-container">
+      <code>$(".unordered-list").selectionOrganizer();</code>
     </div>
+    <div class="pure-g">
+      <ul class="unordered-list">
+        <li class="selection-organizer-child">1</li>
+        <li class="selection-organizer-child">2</li>
+        <li class="selection-organizer-child">3</li>
+        <li class="selection-organizer-child">4</li>
+        <li class="selection-organizer-child">5</li>
+        <li class="selection-organizer-child">6</li>
+        <li class="selection-organizer-child">7</li>
+        <li class="selection-organizer-child">8</li>
+        <li class="selection-organizer-child">9</li>
+        <li class="selection-organizer-child">10</li>
+      </ul>
+    </div>
+
+    <h2>Using custom options:</h2>
+    <div class="code-container">
+      <code>
+      $(".checkbox-list").selectionOrganizer({<br>
+      &nbsp;  selector: ".child", <br>
+      &nbsp;  classSelected: "selected", <br>
+      &nbsp;  showAnimation: false, <br>
+      &nbsp;  sendToEnd: true <br>
+      });
+      </code>
+    </div>
+    <div class="pure-g">
+      <div class="checkbox-list">
+        <label class="child"><input type="checkbox"><span>Buy milk</span></label>
+        <label class="child"><input type="checkbox"><span>Get kids from school</span></label>
+        <label class="child"><input type="checkbox"><span>Check out available movies</span></label>
+        <label class="child"><input type="checkbox"><span>Call over friends</span></label>
+        <label class="child"><input type="checkbox"><span>Buy Arsenal game tickets</span></label>
+        <label class="child"><input type="checkbox"><span>Find out where the cat is hiding</span></label>
+      </div>
+    </div>
+
+    <h2>Changing options after initialization:</h2>
+    <div class="code-container">
+      <code>
+      var boxListOrganizer = $(".box-list").selectionOrganizer({<br>
+      &nbsp;  selector: ".child", <br>
+      &nbsp;  classSelected: "selected", <br>
+      &nbsp;  sendToEnd: true, <br>
+      &nbsp;  callback : function(target) { <br>
+      &nbsp;&nbsp;&nbsp;  $(".span-selected-box-number").text($(target).text()); <br>
+      &nbsp;  } <br>
+      }); <br>
+      boxListOrganizer.settings.animationProperties = {width: "toggle"}; <br>
+      boxListOrganizer.settings.animationDuration = 200;
+      </code>
+    </div>
+    <div class="pure-g">
+        <div class="box-list">
+          <div class="child">1</div>
+          <div class="child">2</div>
+          <div class="child">3</div>
+          <div class="child">4</div>
+          <div class="child">5</div>
+          <div class="child">6</div>
+          <div class="child">7</div>
+          <div class="child">8</div>
+          <div class="child">9</div>
+          <div class="child">10</div>
+        </div>
+        <br>
+    </div>
+    <p class="callback-notifier">Selected: Box #<span class="span-selected-box-number"></span></p>
 
     <!-- Example for NPM and Browserify -->
     <script src="bundle.js"></script>
@@ -39,9 +90,24 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="../dist/jquery.selection-organizer.min.js"></script>
     <script>
-      $(".checkbox-list").selectionOrganizer({
-        selector: "label",
-        callback: function () {console.log("end");}
+      $(window).load(function () {
+        $(".checkbox-list").selectionOrganizer({
+          selector: ".child",
+          classSelected: "selected",
+          showAnimation: false,
+          sendToEnd: true
+        });
+
+        var boxListOrganizer = $(".box-list").selectionOrganizer({
+          selector: ".child",
+          classSelected: "selected",
+          sendToEnd: true,
+          callback : function(target) {
+            $(".span-selected-box-number").text($(target).text());
+          }
+        });
+        boxListOrganizer.settings.animationProperties = {width: "toggle"};
+        boxListOrganizer.settings.animationDuration = 200;
       });
     </script>
   </body>

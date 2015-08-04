@@ -18,7 +18,7 @@
     },
     animationDuration: 300,
     sendToEnd: false,
-    callback: function () {}
+    callback: function(target) {}
   };
 
   $.fn.selectionOrganizer = function(options) {
@@ -114,7 +114,7 @@
         if(!hasAnimation() || (hasAnimation() && !hasRepositioned)) {
           $this.toggleClass(settings.classSelected);
           addClickEventHandlers();
-          settings.callback();
+          settings.callback($this);
         }
       }
 
@@ -126,7 +126,7 @@
                 .detach()[behavior](target)
                 .animate(animationProperties.finish, settings.animationDuration, function () {
                   cb();
-                  settings.callback();
+                  settings.callback($el);
                 });
           });
         }

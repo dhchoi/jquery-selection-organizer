@@ -39,8 +39,8 @@ Documentation
             finish: {"height": "toggle"}
           },
           classSelected: "unordered-list-selected",
-          callback: function () {
-            console.log("end");
+          callback: function(target) {
+            console.log("toggled element: " + target);
           }
         });
 
@@ -71,8 +71,8 @@ Documentation
     * `true`: sends selected elements to end of container
     * `false`: sends selected elements to front of container
     * *default:* `false`
-  * callback: callback function that will be called after a child had been selected
-    * *default:* empty function
+  * callback: callback function that will be called after a child has been selected, along with the selected child being the parameter
+    * *default:* function(target) {}
 
 Examples
 --------
