@@ -26,13 +26,9 @@
 
     return this.each(function(index, element) {
       var $container = $(element);
-      var $allChildren = getCurrentOrderOfAllChildren();
 
       // initialize
       addClickEventHandlers();
-      $allChildren.each(function(index, child) {
-        $(child).attr(DATA_FIELD_NAME, false);
-      });
 
       function clickEventHandler(event) {
         removeClickEventHandlers();
