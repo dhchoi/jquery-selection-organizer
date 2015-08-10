@@ -71,8 +71,8 @@ Documentation
     * `true`: sends selected elements to end of container
     * `false`: sends selected elements to front of container
     * *default:* `false`
-  * callback: callback function that will be called after a child has been selected, along with the selected child being the parameter
-    * *default:* function(target) {}
+  * callback: callback function that will be called with the selected child's jQuery object after the selection is made
+    * *default:* function($target) {}
 
 Examples
 --------

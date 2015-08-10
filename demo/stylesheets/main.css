@@ -24,10 +24,10 @@ ul {
 .checkbox-list .child {
   display: block;
 }
-.checkbox-list .child span::before{
+.checkbox-list .child label::before{
   content: " ";
 }
-.checkbox-list .child.selected span {
+.checkbox-list .child.selected label {
   text-decoration: line-through;
 }
 

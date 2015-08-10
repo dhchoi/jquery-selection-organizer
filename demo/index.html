@@ -36,18 +36,22 @@
       &nbsp;  selector: ".child", <br>
       &nbsp;  classSelected: "selected", <br>
       &nbsp;  showAnimation: false, <br>
-      &nbsp;  sendToEnd: true <br>
+      &nbsp;  sendToEnd: true, <br>
+      &nbsp;  callback : function(target) { <br>
+      &nbsp;&nbsp;&nbsp;  var isSelected = $target.attr("data-selection-organizer-selected") == "true"; <br>
+      &nbsp;&nbsp;&nbsp;  $target.find("input").prop("checked", isSelected); <br>
+      &nbsp;  } <br>
       });
       </code>
     </div>
     <div class="pure-g">
       <div class="checkbox-list">
-        <label class="child"><input type="checkbox"><span>Buy milk</span></label>
-        <label class="child"><input type="checkbox"><span>Get kids from school</span></label>
-        <label class="child"><input type="checkbox"><span>Check out available movies</span></label>
-        <label class="child"><input type="checkbox"><span>Call over friends</span></label>
-        <label class="child"><input type="checkbox"><span>Buy Arsenal game tickets</span></label>
-        <label class="child"><input type="checkbox"><span>Find out where the cat is hiding</span></label>
+        <div class="child"><input type="checkbox"><label>Buy milk</label></div>
+        <div class="child"><input type="checkbox"><label>Get kids from school</label></div>
+        <div class="child"><input type="checkbox"><label>Check out available movies</label></div>
+        <div class="child"><input type="checkbox"><label>Call over friends</label></div>
+        <div class="child"><input type="checkbox"><label>Buy Arsenal game tickets</label></div>
+        <div class="child"><input type="checkbox"><label>Find out where the cat is hiding</label></div>
       </div>
     </div>
 
@@ -59,7 +63,7 @@
       &nbsp;  classSelected: "selected", <br>
       &nbsp;  sendToEnd: true, <br>
       &nbsp;  callback : function(target) { <br>
-      &nbsp;&nbsp;&nbsp;  $(".span-selected-box-number").text($(target).text()); <br>
+      &nbsp;&nbsp;&nbsp;  $(".span-selected-box-number").text($target.text()); <br>
       &nbsp;  } <br>
       }); <br>
       boxListOrganizer.settings.animationProperties = {width: "toggle"}; <br>
@@ -95,15 +99,19 @@
           selector: ".child",
           classSelected: "selected",
           showAnimation: false,
-          sendToEnd: true
+          sendToEnd: true,
+          callback: function($target) {
+            var isSelected = $target.attr("data-selection-organizer-selected") == "true";
+            $target.find("input").prop("checked", isSelected);
+          }
         });
 
         var boxListOrganizer = $(".box-list").selectionOrganizer({
           selector: ".child",
           classSelected: "selected",
           sendToEnd: true,
-          callback : function(target) {
-            $(".span-selected-box-number").text($(target).text());
+          callback : function($target) {
+            $(".span-selected-box-number").text($target.text());
           }
         });
         boxListOrganizer.settings.animationProperties = {width: "toggle"};
