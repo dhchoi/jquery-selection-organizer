@@ -37,7 +37,7 @@
       &nbsp;  classSelected: "selected", <br>
       &nbsp;  showAnimation: false, <br>
       &nbsp;  sendToEnd: true, <br>
-      &nbsp;  callback : function(target) { <br>
+      &nbsp;  callback : function($target) { <br>
       &nbsp;&nbsp;&nbsp;  var isSelected = $target.attr("data-selection-organizer-selected") == "true"; <br>
       &nbsp;&nbsp;&nbsp;  $target.find("input").prop("checked", isSelected); <br>
       &nbsp;  } <br>
@@ -62,7 +62,7 @@
       &nbsp;  selector: ".child", <br>
       &nbsp;  classSelected: "selected", <br>
       &nbsp;  sendToEnd: true, <br>
-      &nbsp;  callback : function(target) { <br>
+      &nbsp;  callback : function($target) { <br>
       &nbsp;&nbsp;&nbsp;  $(".span-selected-box-number").text($target.text()); <br>
       &nbsp;  } <br>
       }); <br>
