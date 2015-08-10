@@ -39,8 +39,8 @@ Documentation
             finish: {"height": "toggle"}
           },
           classSelected: "unordered-list-selected",
-          callback: function(target) {
-            console.log("toggled element: " + target);
+          callback: function($target) {
+            console.log("toggled element: " + $target);
           }
         });
 
