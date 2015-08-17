@@ -10,15 +10,19 @@ Getting Started
 
 * Either by downloading the [latest source](https://github.com/dhchoi/jquery-selection-organizer/releases/latest) and including the script:
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-        <!-- be sure to include after jQuery -->
-        <script src="dist/jquery.selection-organizer.min.js"></script>
+    ```html
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <!-- be sure to include after jQuery -->
+    <script src="dist/jquery.selection-organizer.min.js"></script>
+    ```
 
 * Either by using NPM (`npm install jquery-selection-organizer`) and requiring the module:
 
-        var $ = require("jquery");
-        // be sure to require after jQuery
-        require("jquery-selection-organizer");
+    ```javascript
+    var $ = require("jquery");
+    // be sure to require after jQuery
+    require("jquery-selection-organizer");
+    ```
 
 * Either by using bower:
 
@@ -29,30 +33,34 @@ Documentation
 
 * How to Initialize:
 
-        // how it will look
-        var organizer = $(".container").selectionOrganizer({..settings..});
+    ```javascript
+    // how it will look
+    var organizer = $(".container").selectionOrganizer({..settings..});
 
-        // actual example
-        var organizer = $(".container").selectionOrganizer({
-          selector: "li",
-          animationProperties: {
-            finish: {"height": "toggle"}
-          },
-          classSelected: "unordered-list-selected",
-          callback: function($target) {
-            console.log("toggled element: " + $target);
-          }
-        });
+    // actual example
+    var organizer = $(".container").selectionOrganizer({
+      selector: "li",
+      animationProperties: {
+        finish: {"height": "toggle"}
+      },
+      classSelected: "unordered-list-selected",
+      callback: function($target) {
+        console.log("toggled element: " + $target);
+      }
+    });
+    ```
 
 * How to Change Settings After Initializing:
 
-        // how it will look
-        var organizer = $(".container").selectionOrganizer({..settings..});
-        organizer.settings.field = value;
+    ```javascript
+    // how it will look
+    var organizer = $(".container").selectionOrganizer({..settings..});
+    organizer.settings.field = value;
 
-        // actual example
-        var organizer = $(".container").selectionOrganizer({sendToEnd: false});
-        organizer.settings.sendToEnd = true;
+    // actual example
+    var organizer = $(".container").selectionOrganizer({sendToEnd: false});
+    organizer.settings.sendToEnd = true;
+    ```
 
 * Available Settings Fields:
   * selector: selector for elements that will be organized by the plugin
