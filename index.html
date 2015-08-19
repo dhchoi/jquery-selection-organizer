@@ -25,9 +25,8 @@
     </header>
     <section>
       <h2>Using default options:</h2>
-      <div class="code-container">
-        <code>$(".unordered-list").selectionOrganizer();</code>
-      </div>
+      <pre class="prettyprint lang-js linenums">
+$(".unordered-list").selectionOrganizer();</pre>
       <div class="pure-g">
         <ul class="unordered-list">
           <li class="selection-organizer-child">1</li>
@@ -44,20 +43,17 @@
       </div>
 
       <h2>Using custom options:</h2>
-      <div class="code-container">
-        <code>
-        $(".checkbox-list").selectionOrganizer({<br>
-        &nbsp;  selector: ".child", <br>
-        &nbsp;  classSelected: "selected", <br>
-        &nbsp;  showAnimation: false, <br>
-        &nbsp;  sendToEnd: true, <br>
-        &nbsp;  callback : function($target) { <br>
-        &nbsp;&nbsp;&nbsp;  var isSelected = $target.attr("data-selection-organizer-selected") == "true"; <br>
-        &nbsp;&nbsp;&nbsp;  $target.find("input").prop("checked", isSelected); <br>
-        &nbsp;  } <br>
-        });
-        </code>
-      </div>
+      <pre class="prettyprint lang-js linenums">
+$(".checkbox-list").selectionOrganizer({
+  selector: ".child",
+  classSelected: "selected",
+  showAnimation: false,
+  sendToEnd: true,
+  callback: function($target) {
+    var isSelected = $target.attr("data-selection-organizer-selected") == "true";
+    $target.find("input").prop("checked", isSelected);
+  }
+});</pre>
       <div class="pure-g">
         <div class="checkbox-list">
           <div class="child"><input type="checkbox"><label>Buy milk</label></div>
@@ -70,20 +66,17 @@
       </div>
 
       <h2>Changing options after initialization:</h2>
-      <div class="code-container">
-        <code>
-        var boxListOrganizer = $(".box-list").selectionOrganizer({<br>
-        &nbsp;  selector: ".child", <br>
-        &nbsp;  classSelected: "selected", <br>
-        &nbsp;  sendToEnd: true, <br>
-        &nbsp;  callback : function($target) { <br>
-        &nbsp;&nbsp;&nbsp;  $(".span-selected-box-number").text($target.text()); <br>
-        &nbsp;  } <br>
-        }); <br>
-        boxListOrganizer.settings.animationProperties = {width: "toggle"}; <br>
-        boxListOrganizer.settings.animationDuration = 200;
-        </code>
-      </div>
+      <pre class="prettyprint lang-js linenums">
+var boxListOrganizer = $(".box-list").selectionOrganizer({
+  selector: ".child",
+  classSelected: "selected",
+  sendToEnd: true,
+  callback : function(target) {
+    $(".span-selected-box-number").text($(target).text());
+  }
+});
+boxListOrganizer.settings.animationProperties = {width: "toggle"};
+boxListOrganizer.settings.animationDuration = 200;</pre>
       <div class="pure-g">
           <div class="box-list">
             <div class="child">1</div>
@@ -107,6 +100,7 @@
     </footer>
   </div>
 
+  <script src="//cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?autoload=true&amp;skin=sunburst" defer="defer"></script>
   <script src="javascripts/scale.fix.js"></script>
   <!--[if !IE]><script>fixScale(document);</script><![endif]-->
   <script type="text/javascript">
